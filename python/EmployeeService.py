@@ -55,6 +55,17 @@ class EmployeeServer(EmployeeService_pb2_grpc.EmployeeServiceServicer):
       list.employee_data.append(emp_data)
     return list
 
+  def GetEmployeesByTitle(self, request, context):
+    list = EmployeeService_pb2.EmployeeDataList()
+    for item in empDB:
+      if item['title'] == request.title:
+        emp_data = EmployeeService_pb2.EmployeeData(id=item['id'], name=item['name'], title=item['title'])
+        list.employee_data.append(emp_data)
+    return list
+
+  def CountEmployees(self, request, context):
+    return EmployeeService_pb2.EmployeeCount(count=len(empDB))
+
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     EmployeeService_pb2_grpc.add_EmployeeServiceServicer_to_server(EmployeeServer(), server)

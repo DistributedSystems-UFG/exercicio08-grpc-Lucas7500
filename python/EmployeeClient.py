@@ -31,6 +31,14 @@ def run():
         response = stub.ListAllEmployees(EmployeeService_pb2.EmptyMessage())
         print ('All employees: ' + str(response))
 
+        # Get employees by title
+        response = stub.GetEmployeesByTitle(EmployeeService_pb2.EmployeeTitle(title='Technical Leader'))
+        print ('Employees with title Technical Leader: ' + str(response))
+
+        # Count total employees
+        response = stub.CountEmployees(EmployeeService_pb2.EmptyMessage())
+        print ('Total employees: ' + str(response.count))
+
 if __name__ == '__main__':
     logging.basicConfig()
     run()
